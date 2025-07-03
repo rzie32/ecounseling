@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Self-Help – E-Counseling</title>
+
+  <!-- Fonts & Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <style>
+    :root {
+      --bg: #f3f4f6;
+      --text: #333;
+      --card: rgba(255, 255, 255, 0.85);
+      --nav: rgba(255, 255, 255, 0.85);
+      --btn-bg: #3b82f6;
+      --btn-hover: #2563eb;
+    }
+
+    body.dark {
+      --text: #f9fafb;
+      --card: rgba(17, 24, 39, 0.8);
+      --nav: rgba(17, 24, 39, 0.85);
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: url('counseling-bg.png') no-repeat center center fixed;
+      background-size: cover;
+      color: var(--text);
+      margin: 0;
+      padding: 0 20px;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .overlay {
+      min-height: 100vh;
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      padding-bottom: 40px;
+    }
+
+    .navbar {
+      background: var(--nav);
+      padding: 10px 20px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+    }
+
+    .nav-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .logo-box {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-img {
+      height: 100px;
+    }
+
+    .logo-text {
+      font-weight: bold;
+      color: #2563eb;
+      font-size: 18px;
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+      padding: 0;
+      margin: 10px 0 0;
+      align-items: center;
+    }
+
+    .nav-links a,
+    .nav-links button {
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 500;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .nav-links a:hover,
+    .nav-links button:hover {
+      color: var(--btn-hover);
+      transform: scale(1.05);
+    }
+
+    .hamburger {
+      display: none;
+      font-size: 18px;
+      background: none;
+      border: none;
+      color: var(--text);
+      cursor: pointer;
+    }
+
+    .logout-icon-btn {
+      background-color: transparent;
+      border: none;
+      color: var(--text);
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    .logout-icon-btn:hover {
+      color: var(--btn-hover);
+      transform: scale(1.1);
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 40px auto;
+    }
+
+    .resource {
+      background: var(--card);
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      text-align: center;
+    }
+
+    .resource h3 {
+      margin-top: 0;
+    }
+
+    .video-thumb {
+      width: 100%;
+      max-width: 400px;
+      cursor: pointer;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      transition: transform 0.2s ease;
+      margin-top: 10px;
+    }
+
+    .video-thumb:hover {
+      transform: scale(1.03);
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 999;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.7);
+    }
+
+    .modal-content {
+      background-color: var(--card);
+      margin: 10% auto;
+      padding: 30px;
+      border-radius: 10px;
+      max-width: 600px;
+      position: relative;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      text-align: center;
+    }
+
+    .close-btn {
+      color: #aaa;
+      position: absolute;
+      top: 8px;
+      right: 14px;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .close-btn:hover {
+      color: #ff4d4d;
+    }
+
+    button {
+      padding: 10px 16px;
+      font-weight: 500;
+      background: var(--btn-bg);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background: var(--btn-hover);
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        background: var(--nav);
+        margin-top: 10px;
+      }
+
+      .nav-links.active {
+        display: flex;
+      }
+
+      .hamburger {
+        display: block;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay">
+    <nav class="navbar">
+      <div class="nav-container">
+        <div class="logo-box">
+          <img src="counseling-removebg-preview.png" alt="E-Counseling Logo" class="logo-img" />
+          <span class="logo-text">Positive Connection</span>
+        </div>
+        <button class="hamburger" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
+        <ul class="nav-links" id="navLinks">
+          <li><a href="dashboard.html"><i class="fas fa-home"></i> Dashboard</a></li>
+          <li><a href="book.html"><i class="fas fa-calendar-check"></i> Book</a></li>
+          <li><a href="resources.html"><i class="fas fa-book-open"></i> Self-Help</a></li>
+          <li><a href="feedback.html"><i class="fas fa-comment-dots"></i> Feedback</a></li>
+          <li><a href="profile.html"><i class="fas fa-user"></i> Profile</a></li>
+          <li><button class="logout-icon-btn" onclick="logout()" title="Logout"><i class="fas fa-sign-out-alt"></i></button></li>
+          <li><button class="logout-icon-btn" onclick="toggleDarkMode()" title="Toggle Dark Mode"><i class="fas fa-moon"></i></button></li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="container">
+      <h2>Self-Help Resources</h2>
+
+      <div class="resource">
+        <h3>5-Minute Guided Meditation</h3>
+        <img src="https://img.youtube.com/vi/inpok4MKVLM/hqdefault.jpg" alt="Meditation Video" class="video-thumb" onclick="openVideo('inpok4MKVLM')" />
+      </div>
+
+      <div class="resource">
+        <h3>Tips for Managing Stress</h3>
+        <img src="https://img.youtube.com/vi/Wh5HyJ1rxzk/hqdefault.jpg" alt="Stress Tips Video" class="video-thumb" onclick="openVideo('Wh5HyJ1rxzk')" />
+      </div>
+
+      <div class="resource">
+        <h3>Relaxing Sea Sound</h3>
+        <button onclick="openSeaAudio()">Play Sea Sound</button>
+      </div>
+
+      <div class="resource">
+        <h3>Relaxing Rain Sound</h3>
+        <button onclick="openRainAudio()">Play Rain Sound</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Video Modal -->
+  <div id="videoModal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeVideo()">&times;</span>
+      <iframe id="youtubeFrame" width="100%" height="315" src="" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    </div>
+  </div>
+
+  <!-- Sea Sound Modal -->
+  <div id="seaAudioModal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeSeaAudio()">&times;</span>
+      <h3>Relaxing Sea Sound</h3>
+      <audio id="seaAudio" controls autoplay style="width: 100%; margin-top: 20px;">
+        <source src="https://archive.org/download/ocean-sea-sounds/Gentle%20Ocean.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+      </audio>
+    </div>
+  </div>
+
+  <!-- Rain Sound Modal -->
+  <div id="rainAudioModal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeRainAudio()">&times;</span>
+      <h3>Relaxing Rain Sound</h3>
+      <audio id="rainAudio" controls autoplay style="width: 100%; margin-top: 20px;">
+        <source src="https://www.youtube.com/live/QPpaFApiO2g?si=k4F3dSoTGPISrlKU" type="audio/mpeg">
+        Your browser does not support the audio element.
+      </audio>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script>
+    if (localStorage.getItem('darkMode') === 'enabled') {
+      document.body.classList.add('dark');
+    }
+
+    function toggleDarkMode() {
+      document.body.classList.toggle('dark');
+      localStorage.setItem('darkMode', document.body.classList.contains('dark') ? 'enabled' : 'disabled');
+    }
+
+    function toggleMenu() {
+      document.getElementById('navLinks').classList.toggle('active');
+    }
+
+    function logout() {
+      if (confirm("Are you sure you want to log out?")) {
+        sessionStorage.clear();
+        window.location.href = "index.html";
+      }
+    }
+
+    function openVideo(videoId) {
+      const frame = document.getElementById('youtubeFrame');
+      frame.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+      document.getElementById('videoModal').style.display = "block";
+    }
+
+    function closeVideo() {
+      document.getElementById('youtubeFrame').src = "";
+      document.getElementById('videoModal').style.display = "none";
+    }
+
+    function openSeaAudio() {
+      document.getElementById('seaAudioModal').style.display = "block";
+      document.getElementById('seaAudio').play();
+    }
+
+    function closeSeaAudio() {
+      const audio = document.getElementById('seaAudio');
+      audio.pause();
+      audio.currentTime = 0;
+      document.getElementById('seaAudioModal').style.display = "none";
+    }
+
+    function openRainAudio() {
+      document.getElementById('rainAudioModal').style.display = "block";
+      document.getElementById('rainAudio').play();
+    }
+
+    function closeRainAudio() {
+      const audio = document.getElementById('rainAudio');
+      audio.pause();
+      audio.currentTime = 0;
+      document.getElementById('rainAudioModal').style.display = "none";
+    }
+  </script>
+</body>
+</html>
